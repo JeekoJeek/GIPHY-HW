@@ -17,6 +17,17 @@ $(document).ready(function () {
         link();
         // console.log(q);
     })
+    //Create new buttons
+    $("#add-city").on("click", function(event){
+        event.preventDefault();
+        var newCity= $("#city").val().trim();
+        console.log(newCity);
+        var b=$("<button>");
+        b.addClass("city");
+        b.attr("city-name", newCity);
+        b.text(newCity);
+        $("#buttons").append(b);
+    })
 
     //create API link to GIPHY within a function
     var link = function () {
@@ -32,27 +43,29 @@ $(document).ready(function () {
         }).then(function(response){
             var city=response.data
             for (i=0;i<city.length; i++){
-                console.log(city[i]);
+                // console.log(city[i]);
             //simplifies the variable to append
             var static = city[i].images.fixed_height_still.url;
             var moving = city[i].images.fixed_height.url
                 console.log(static);
+                console.log(moving)
                 //create the image holder
                 var img=$("<img>");
-                img.addClass("images");
+                img.addClass("images"+i);
                 img.attr("src",static);
                 console.log(img);
             //append the new still image
             $("#gifs").append(img);
-            $(document).on("click",".images",function(){
-                var gif=$("<img>");
-                gif.addClass("gif")
-                gif.attr("src",moving);
-                $(".images").animate(gif);
+            $(document).on("click", "img", function(){
+                console.log (this.src)
+    
+                    $(this).attr("src",moving)
+     
             })
         }
 
-        })
+    })
+      
 
 
 
